@@ -10,6 +10,7 @@ require (
 
 require (
 	github.com/armon/go-metrics v0.4.1 // indirect
+	github.com/dreamilk/rpc_gateway v0.0.0-20240520144516-edbe4d8c5b7d // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/hashicorp/consul/proto-public v0.6.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
@@ -24,6 +25,8 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	go.uber.org/multierr v1.11.0 // indirect
+	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
