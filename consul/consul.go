@@ -10,9 +10,11 @@ import (
 	"github.com/dreamilk/rpc_gateway/log"
 	"github.com/hashicorp/consul/api"
 	"go.uber.org/zap"
+
+	"github.com/dreamilk/rpc_server/config"
 )
 
-func Register(id string, name string, port int) {
+func Register(conf *config.DeployConfig) {
 	ctx := context.Background()
 
 	go healthCheck()
@@ -22,7 +24,7 @@ func Register(id string, name string, port int) {
 		c := make(chan os.Signal, 1)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 		sig := <-c
-		if err := deregeisterService(id); err != nil {
+		if err := deregeisterService(conf.Id); err != nil {
 			log.Error(ctx, "de", zap.Error(err))
 		}
 		log.Info(ctx, "", zap.Any("sig", sig))
@@ -30,7 +32,7 @@ func Register(id string, name string, port int) {
 		os.Exit(0)
 	}()
 
-	if err := registerService(id, name, port); err != nil {
+	if err := registerService(conf.Id, conf.AppName, conf.Port); err != nil {
 		log.Error(ctx, "", zap.Error(err))
 	}
 }
