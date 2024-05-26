@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/dreamilk/rpc_gateway/log"
 	"google.golang.org/grpc"
 
 	pb "github.com/dreamilk/rpc_server/api"
 	"github.com/dreamilk/rpc_server/config"
 	"github.com/dreamilk/rpc_server/consul"
 	"github.com/dreamilk/rpc_server/handler"
+	"github.com/dreamilk/rpc_server/log"
 )
 
 var appConfig *config.DeployConfig

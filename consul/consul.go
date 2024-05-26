@@ -7,11 +7,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/dreamilk/rpc_gateway/log"
 	"github.com/hashicorp/consul/api"
 	"go.uber.org/zap"
 
 	"github.com/dreamilk/rpc_server/config"
+	"github.com/dreamilk/rpc_server/log"
 )
 
 func Register(conf *config.DeployConfig) {

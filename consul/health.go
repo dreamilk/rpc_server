@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dreamilk/rpc_gateway/log"
 	"go.uber.org/zap"
+
+	"github.com/dreamilk/rpc_server/log"
 )
 
 func healthCheck() {
