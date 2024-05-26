@@ -17,7 +17,7 @@ import (
 var appConfig *config.DeployConfig
 
 func init() {
-	appConfig = config.ReadDeploy()
+	appConfig = &config.DefaultConf
 	consul.Register(appConfig)
 }
 
