@@ -1,4 +1,4 @@
-package consul
+package server
 
 import (
 	"context"
