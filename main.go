@@ -9,22 +9,14 @@ import (
 
 	pb "github.com/dreamilk/rpc_server/api"
 	"github.com/dreamilk/rpc_server/config"
-	"github.com/dreamilk/rpc_server/consul"
 	"github.com/dreamilk/rpc_server/handler"
 	"github.com/dreamilk/rpc_server/log"
 )
 
-var appConfig *config.DeployConfig
-
-func init() {
-	appConfig = &config.DefaultConf
-	consul.Register(appConfig)
-}
-
 func main() {
 	ctx := context.Background()
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", appConfig.Port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", config.DefaultConf.Port))
 	if err != nil {
 		log.Errorf(ctx, "failed to listen: %v", err)
 		return

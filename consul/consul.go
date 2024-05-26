@@ -14,6 +14,10 @@ import (
 	"github.com/dreamilk/rpc_server/log"
 )
 
+func init() {
+	Register(&config.DefaultConf)
+}
+
 func Register(conf *config.DeployConfig) {
 	ctx := context.Background()
 

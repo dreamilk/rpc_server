@@ -16,12 +16,14 @@ func init() {
 	ctx := context.Background()
 
 	DefaultConf = initDeployConfig(ctx)
+
+	log.Info(ctx, "deploy config", zap.Any("config", DefaultConf))
 }
 
 type DeployConfig struct {
-	Port    int    `yml:"port"`
-	AppName string `yml:"app_name"`
-	Id      string `yml:"id"`
+	Port    int    `yaml:"port"`
+	AppName string `yaml:"app_name"`
+	Id      string `yaml:"id"`
 }
 
 func initDeployConfig(ctx context.Context) DeployConfig {
