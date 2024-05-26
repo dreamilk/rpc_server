@@ -15,10 +15,10 @@ import (
 )
 
 func init() {
-	Register(&config.DefaultConf)
+	register(&config.DefaultConf)
 }
 
-func Register(conf *config.DeployConfig) {
+func register(conf *config.DeployConfig) {
 	ctx := context.Background()
 
 	go healthCheck()
