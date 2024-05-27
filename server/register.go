@@ -12,24 +12,20 @@ import (
 )
 
 var s *grpc.Server
-var lis net.Listener
-
-var ctx = context.Background()
 
 func init() {
 	s = grpc.NewServer()
-
-	var err error
-
-	lis, err = net.Listen("tcp", fmt.Sprintf(":%d", config.DefaultConf.Port))
-	if err != nil {
-		log.Errorf(ctx, "failed to listen: %v", err)
-		return
-	}
-
 }
 
 func Serve() error {
+	var ctx = context.Background()
+
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", config.DefaultConf.Port))
+	if err != nil {
+		log.Errorf(ctx, "failed to listen: %v", err)
+		return err
+	}
+
 	return s.Serve(lis)
 }
 
