@@ -30,12 +30,12 @@ func register(conf *config.DeployConfig) {
 		if err := deregeisterService(ctx, conf.Id); err != nil {
 			log.Error(ctx, "deregister service err", zap.Error(err))
 		}
-		log.Info(ctx, "", zap.Any("sig", sig))
+		log.Info(ctx, "deregister service", zap.Any("sig", sig))
 
 		os.Exit(0)
 	}()
 
-	if err := registerService(ctx, conf.Id, conf.AppName, conf.Port, conf.Addr, conf.Consul.Addr); err != nil {
+	if err := registerService(ctx, conf.Id, conf.AppName, conf.Port, conf.Addr, conf.Consul); err != nil {
 		log.Error(ctx, "register service err", zap.Error(err))
 	}
 }
@@ -51,6 +51,9 @@ func registerService(ctx context.Context, id string, name string, port int, serv
 		return err
 	}
 
+	healthCheckUrl := "http://" + serviceAddr + ":8888/health"
+	log.Info(ctx, "health check url", zap.String("url", healthCheckUrl))
+
 	registerService := api.AgentServiceRegistration{
 		ID:      id,
 		Tags:    []string{"grpc"},
@@ -58,7 +61,7 @@ func registerService(ctx context.Context, id string, name string, port int, serv
 		Address: serviceAddr,
 		Port:    port,
 		Check: &api.AgentServiceCheck{
-			HTTP:     "http://" + serviceAddr + ":8888/health",
+			HTTP:     healthCheckUrl,
 			Timeout:  "1s",
 			Interval: "5s",
 		},
@@ -76,13 +79,13 @@ func deregeisterService(ctx context.Context, id string) error {
 	consulConfig := api.DefaultConfig()
 	consulClient, err := api.NewClient(consulConfig)
 	if err != nil {
-		log.Error(ctx, "api.NewClient err", zap.Error(err))
+		log.Error(ctx, "new consul client err", zap.Error(err))
 		return err
 	}
 
 	err = consulClient.Agent().ServiceDeregister(id)
 	if err != nil {
-		log.Error(ctx, "consulClient.Agent().ServiceDeregister err", zap.Error(err))
+		log.Error(ctx, "deregister service err", zap.Error(err))
 		return err
 	}
 	return nil

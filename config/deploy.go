@@ -25,9 +25,7 @@ type DeployConfig struct {
 	Addr    string `yaml:"addr"`
 	Port    int    `yaml:"port"`
 	Id      string `yaml:"id"`
-	Consul  struct {
-		Addr string `yaml:"addr"`
-	} `yaml:"consul"`
+	Consul  string `yaml:"consul"`
 }
 
 func initDeployConfig(ctx context.Context) DeployConfig {
