@@ -36,13 +36,16 @@ func register(conf *config.DeployConfig) {
 		os.Exit(0)
 	}()
 
-	if err := registerService(conf.Id, conf.AppName, conf.Port, conf.ConsulAddress); err != nil {
+	if err := registerService(conf.Id, conf.AppName, conf.Port, conf.Addr, conf.Consul.Addr); err != nil {
 		log.Error(ctx, "", zap.Error(err))
 	}
 }
 
-func registerService(id string, name string, port int, consulAddress string) error {
+func registerService(id string, name string, port int, serviceAddr string, consulAddr string) error {
 	consulConfig := api.DefaultConfig()
+
+	consulConfig.Address = consulAddr
+
 	consulClient, err := api.NewClient(consulConfig)
 	if err != nil {
 		fmt.Println("api.NewClient err:", err)
@@ -53,7 +56,7 @@ func registerService(id string, name string, port int, consulAddress string) err
 		ID:      id,
 		Tags:    []string{"grpc"},
 		Name:    name,
-		Address: consulAddress,
+		Address: serviceAddr,
 		Port:    port,
 		Check: &api.AgentServiceCheck{
 			HTTP:     "http://host.docker.internal:8888/health",

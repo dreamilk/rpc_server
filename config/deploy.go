@@ -21,10 +21,13 @@ func init() {
 }
 
 type DeployConfig struct {
-	Port          int    `yaml:"port"`
-	AppName       string `yaml:"app_name"`
-	ConsulAddress string `yaml:"consul_address"`
-	Id            string `yaml:"id"`
+	AppName string `yaml:"app_name"`
+	Addr    string `yaml:"addr"`
+	Port    int    `yaml:"port"`
+	Id      string `yaml:"id"`
+	Consul  struct {
+		Addr string `yaml:"addr"`
+	} `yaml:"consul"`
 }
 
 func initDeployConfig(ctx context.Context) DeployConfig {
