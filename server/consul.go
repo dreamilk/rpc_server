@@ -26,11 +26,11 @@ func register(conf *config.DeployConfig) {
 	go func() {
 		c := make(chan os.Signal, 1)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-		sig := <-c
-		if err := deregeisterService(ctx, conf.Id); err != nil {
+		<-c
+		if err := deregeisterService(ctx, conf.Id, conf.Consul); err != nil {
 			log.Error(ctx, "deregister service err", zap.Error(err))
 		}
-		log.Info(ctx, "deregister service", zap.Any("sig", sig))
+		log.Info(ctx, "deregister service")
 
 		os.Exit(0)
 	}()
@@ -75,8 +75,10 @@ func registerService(ctx context.Context, id string, name string, port int, serv
 	return nil
 }
 
-func deregeisterService(ctx context.Context, id string) error {
+func deregeisterService(ctx context.Context, id string, consulAddr string) error {
 	consulConfig := api.DefaultConfig()
+	consulConfig.Address = consulAddr
+
 	consulClient, err := api.NewClient(consulConfig)
 	if err != nil {
 		log.Error(ctx, "new consul client err", zap.Error(err))
